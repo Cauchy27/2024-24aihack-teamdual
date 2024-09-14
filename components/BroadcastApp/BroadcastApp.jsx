@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 import Head from 'next/head';
 
 import AudioRecord from '../AudioRecorder/AudioRecord';
+import { ImageRecorder } from '../ImageRecorder/ImageRecorder';
 
 export default function BroadcastApp() {
   const searchParams = useSearchParams();
@@ -218,7 +219,7 @@ export default function BroadcastApp() {
 
 
   return (
-    <>
+    <div className='z-10'>
       <Head>
         <title>{title}</title>
       </Head>
@@ -246,7 +247,8 @@ export default function BroadcastApp() {
           </div>
           <img id="photo">
       </div> */}
-      <AudioRecord/>
-    </>
+      {/* <AudioRecord/> */}
+      <ImageRecorder/>
+    </div>
   );
 }
