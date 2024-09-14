@@ -18,9 +18,10 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhveW1pbXR1emV6c2hrdXFjZWp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzMDgwMTksImV4cCI6MjA0MTg4NDAxOX0.yX8rrQx8QHA009vOy8JsIoFIj4eyoL2H7j5PVOxj8_Y"
 );
 
-const testResJson = [`{"audioData": "2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`,`{"audioData": "2024-09-15_01-52-54.wav", "kokoronokoe": "この瞬間、僕の努力が報われている。皆の反応もいい感じだ。ここまで来たかいがあった。一体、どれだけの時間を費やしてきたんだろう。これが新しい始まりになるといいな。"}`];
+const testResJson = [`{"audioData": "/outAudio/2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`,`{"audioData": "/outAudio/2024-09-15_01-52-54.wav", "kokoronokoe": "この瞬間、僕の努力が報われている。皆の反応もいい感じだ。ここまで来たかいがあった。一体、どれだけの時間を費やしてきたんだろう。これが新しい始まりになるといいな。"}`];
 
-const testMode = true;
+// const testMode = true;
+const testMode = false;
 
 const videoConstraints = {
   width: 360,
@@ -140,8 +141,8 @@ export const ImageRecorder = () => {
       console.log(kokoronokoeData.audioData);
       setKokoronokoeText(kokoronokoeData.kokoronokoe);
 
-      // 音声のurl取得・urlの形式を後でよう確認
-      const url = supabase.storage.from("media/outAudio").getPublicUrl(kokoronokoeData.audioData);
+      // 音声のurl取得・urlの形式を後で確認
+      const url = supabase.storage.from("media/outAudio").getPublicUrl(kokoronokoeData.audioData.replace("/outAudio/",""));
 
       // console.log(url.data.publicUrl);
       soundPlay(url.data.publicUrl);
@@ -163,6 +164,17 @@ export const ImageRecorder = () => {
       .then((res_data)=>{
 
         // ここは後で
+        let kokoronokoeData;
+        kokoronokoeData = JSON.parse(res_data);
+
+        console.log(kokoronokoeData.audioData);
+        setKokoronokoeText(kokoronokoeData.kokoronokoe);
+
+        // 音声のurl取得・urlの形式を後で確認
+        const url = supabase.storage.from("media/outAudio").getPublicUrl(kokoronokoeData.audioData.replace("/outAudio/",""));
+
+        // console.log(url.data.publicUrl);
+        soundPlay(url.data.publicUrl);
 
         console.log(res_data)
         return res_data;
@@ -248,10 +260,10 @@ const getSoundTest =async() => {
             {
               isSoundPlay &&
               <Marquee
-                speed={170}
+                speed={250}
                 // loop="1"
               >
-                <p className="text-5xl text-white font-bold bg-slate-500 opacity-70">{kokoronokoeText}</p>
+                <p className="text-7xl text-white font-bold bg-slate-500 opacity-70">{kokoronokoeText}</p>
               </Marquee>
             }
             <Webcam
