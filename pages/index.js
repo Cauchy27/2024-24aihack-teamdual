@@ -12,14 +12,14 @@ const BroadcastApp = dynamic(() => import('@/components/BroadcastApp'), {
 });
 
 export default function Broadcast() {
-  const title = `Amazon IVS – Web Broadcast Tool`;
+  const title = `超正直な発表メーカー`;
   return (
     <>
       <Head>
         <title>{title}</title>
         <meta
           name='description'
-          content='This tool can be used to stream your webcam or share your screen to an Amazon IVS Channel.'
+          content='発表者の心の声が聞こえる、プレゼン補助アプリです。'
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
