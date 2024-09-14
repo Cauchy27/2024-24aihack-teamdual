@@ -15,7 +15,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhveW1pbXR1emV6c2hrdXFjZWp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzMDgwMTksImV4cCI6MjA0MTg4NDAxOX0.yX8rrQx8QHA009vOy8JsIoFIj4eyoL2H7j5PVOxj8_Y"
 );
 
-const testResJson = `{"audioData": "2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`;
+const testResJson = [`{"audioData": "2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`,`{"audioData": "2024-09-15_01-52-54.wav", "kokoronokoe": "この瞬間、僕の努力が報われている。皆の反応もいい感じだ。ここまで来たかいがあった。一体、どれだけの時間を費やしてきたんだろう。これが新しい始まりになるといいな。"}`];
 
 const testMode = true;
 
@@ -120,7 +120,14 @@ export const ImageRecorder = () => {
     console.log(JSON.stringify(data));
 
     if(testMode){
-      const kokoronokoeData = JSON.parse(testResJson);
+
+      let kokoronokoeData
+      if(Math.random() <0.5){
+        kokoronokoeData = JSON.parse(testResJson[0]);
+      }
+      else{
+        kokoronokoeData = JSON.parse(testResJson[1]);
+      }
       console.log(kokoronokoeData.audioData);
       setKokoronokoeText(kokoronokoeData.kokoronokoe);
 
