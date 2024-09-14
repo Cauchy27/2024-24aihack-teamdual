@@ -60,10 +60,13 @@ function useLocalMedia() {
   };
 
   const cleanUpDevices = () => {
-    navigator.mediaDevices.removeEventListener(
-      'devicechange',
-      handleDeviceChange
-    );
+    if(navigator?.mediaDevices?.removeEventListener){
+      navigator.mediaDevices.removeEventListener(
+        'devicechange',
+        handleDeviceChange
+      );
+
+    }
   };
 
   const refreshDevices = async (e) => {
