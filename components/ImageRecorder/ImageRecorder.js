@@ -18,7 +18,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhveW1pbXR1emV6c2hrdXFjZWp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzMDgwMTksImV4cCI6MjA0MTg4NDAxOX0.yX8rrQx8QHA009vOy8JsIoFIj4eyoL2H7j5PVOxj8_Y"
 );
 
-const testResJson = [`{"audioData": "/outAudio/2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`,`{"audioData": "/outAudio/2024-09-15_01-52-54.wav", "kokoronokoe": "この瞬間、僕の努力が報われている。皆の反応もいい感じだ。ここまで来たかいがあった。一体、どれだけの時間を費やしてきたんだろう。これが新しい始まりになるといいな。"}`];
+const testResJson = [`{"audioData": "/outAudio/2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`,`{"audioData": "/outAudio/2024-09-15_01-52-54.wav", "kokoronokoe": "この瞬間、僕の努力が報われている。皆の反応もいい感じだ。ここまで来たかいがあった。一体、どれだけの時間を費やしてきたんだろう。これが新しい始まりになるといいな。"}`,`{"audioData": "/outAudio/2024-09-15_07-42-30.wav", "kokoronokoe": "こんな場で落ち着いていられるだろうか。周囲は和やかだけど、ふとした瞬間に不安がよぎる。どうにか努めても、内心はイライラしている。もっとスムーズにできたはずなのに、期待に応えられるのか。"}`];
 
 const testMode = true;
 // const testMode = false;
@@ -134,11 +134,15 @@ export const ImageRecorder = () => {
     if(testMode){
 
       let kokoronokoeData
-      if(Math.random() <0.5){
+      const testNum = Math.random();
+      if(testNum <0.3){
         kokoronokoeData = JSON.parse(testResJson[0]);
       }
-      else{
+      else if(testNum <0.6 ){
         kokoronokoeData = JSON.parse(testResJson[1]);
+      }
+      else{
+        kokoronokoeData = JSON.parse(testResJson[2]);
       }
       
       console.log(kokoronokoeData.audioData);
@@ -248,18 +252,18 @@ const getSoundTest =async() => {
 
   return (
     <>
-      {/* <header>
-        <h1>カメラアプリ</h1>
-      </header> */}
-      {/* {isCaptureEnable || (
-        <button onClick={() => setCaptureEnable(true)}>開始</button>
-      )} */}
+      {
+        isSoundPlay &&
+        <div className="absolute z-0 top-20 text-8xl left-10 text-white font-bold bg-slate-500 opacity-70">
+            <p>※心の声</p>
+        </div>
+      }
       {isCaptureEnable && (
         <>
           {/* <div>
             <button onClick={() => setCaptureEnable(false)}>終了</button>
           </div> */}
-          <div className="absolute z-0 bottom-0 left-0">
+          <div className="absolute z-0 bottom-0 left-0 ">
             {
               isSoundPlay &&
               <Marquee
