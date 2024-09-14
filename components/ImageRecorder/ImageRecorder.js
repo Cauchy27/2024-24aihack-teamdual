@@ -6,9 +6,12 @@ import { useEffect } from "react";
 
 import {Button}  from "@mui/material";
 import IconButton from '@mui/material/IconButton';
+import Typography from "@mui/material";
 
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
+
+import Marquee from "react-fast-marquee";
 
 const supabase = createClient(
   "https://hoymimtuzezshkuqcejv.supabase.co",
@@ -33,6 +36,8 @@ export const ImageRecorder = () => {
   const [intervalId, setIntervalId] = useState(0);
   const [imageFlag, setImageFlag] = useState(false);
 
+  let firstLoadFlag = false;
+
   const [isSoundPlay, setIsSoundPlay] = useState(false);
 
   // 再生用ファイル
@@ -43,10 +48,10 @@ export const ImageRecorder = () => {
     setImageSrc(webcamRef.current?.getScreenshot());
   }, [webcamRef]);
   
-  useEffect(()=>{
-    console.log(imageSrc)
-    setUrl(imageSrc);
-  },[imageSrc]);
+  // useEffect(()=>{
+  //   console.log(imageSrc)
+  //   setUrl(imageSrc);
+  // },[imageSrc]);
 
   const submitImage = async() => {
     if(!imageSrc){
@@ -82,6 +87,7 @@ export const ImageRecorder = () => {
 
   // 画像の定期アップロード
   const addInterval = () => {
+    firstLoadFlag = true;
     console.log(intervalId,"add");
     if(intervalId == 0){
       test = setInterval(() => {
@@ -93,8 +99,10 @@ export const ImageRecorder = () => {
     }
   }
   useEffect(()=>{
-    console.log(intervalId, imageFlag);
-    addInterval();
+    console.log(intervalId, imageFlag,firstLoadFlag);
+    if(!firstLoadFlag){
+      addInterval();
+    }
   },[imageFlag]);
 
   useEffect(()=>{
@@ -128,6 +136,7 @@ export const ImageRecorder = () => {
       else{
         kokoronokoeData = JSON.parse(testResJson[1]);
       }
+      
       console.log(kokoronokoeData.audioData);
       setKokoronokoeText(kokoronokoeData.kokoronokoe);
 
@@ -152,6 +161,9 @@ export const ImageRecorder = () => {
       })
       .then(res => res.json())
       .then((res_data)=>{
+
+        // ここは後で
+
         console.log(res_data)
         return res_data;
       });
@@ -234,6 +246,14 @@ const getSoundTest =async() => {
             <button onClick={() => setCaptureEnable(false)}>終了</button>
           </div> */}
           <div className="absolute z-50 bottom-0 left-0">
+            {
+              isSoundPlay &&
+              <Marquee
+                speed={150}
+              >
+                <p className="text-5xl text-white font-bold">{kokoronokoeText}</p>
+              </Marquee>
+            }
             <Webcam
               audio={false}
               width={480}
