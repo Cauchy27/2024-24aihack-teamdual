@@ -47,6 +47,7 @@ export const ImageRecorder = () => {
 
   const capture = useCallback(() => {
     setImageSrc(webcamRef.current?.getScreenshot());
+    console.log("capture_done",webcamRef.current?.getScreenshot())
   }, [webcamRef]);
   
   // useEffect(()=>{
@@ -92,7 +93,7 @@ export const ImageRecorder = () => {
     console.log(intervalId,"add");
     if(intervalId == 0){
       test = setInterval(() => {
-        console.log("capture!!!")
+        console.log("capture!!!",isCaptureEnable)
         capture();
       },20000);
 
@@ -107,8 +108,10 @@ export const ImageRecorder = () => {
   },[imageFlag]);
 
   useEffect(()=>{
+    console.log("src", imageSrc);
     if(imageSrc){
       submitImage().then((res)=>{
+        console.log(res);
         if(res.match(/jpg/)){
           console.log("success_upload!!");
 
