@@ -98,6 +98,11 @@
     "@babel/helper-validator-identifier" "^7.24.7"
     to-fast-properties "^2.0.0"
 
+"@designbycode/tailwindcss-text-stroke@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@designbycode/tailwindcss-text-stroke/-/tailwindcss-text-stroke-1.2.1.tgz"
+  integrity sha512-6SqiFuMjJaWWv5Mm+RIu8Ui3Kc/8AK3m0qSocPOFhk4yS6aMVioy8QLghAj5KOR/8lsfZe3r7I1uJ7YM1FimUA==
+
 "@emotion/babel-plugin@^11.12.0":
   version "11.12.0"
   resolved "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.12.0.tgz"
@@ -3397,7 +3402,7 @@ tailwindcss-themer@^4.0.0:
     lodash.merge "^4.6.2"
     lodash.mergewith "^4.6.2"
 
-tailwindcss@^3.1.0, tailwindcss@^3.4.4:
+tailwindcss@^3.1.0, tailwindcss@^3.4.4, "tailwindcss@>=3.0.0 || >=3.0.0-alpha.1":
   version "3.4.11"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.11.tgz"
   integrity sha512-qhEuBcLemjSJk5ajccN9xJFtM/h0AVCPaA6C92jNP+M2J8kX+eMJHI7R2HFKUvvAsMpcfLILMCFYSeDwpMmlUg==

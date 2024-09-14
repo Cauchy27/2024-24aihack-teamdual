@@ -249,7 +249,8 @@ const getSoundTest =async() => {
             {
               isSoundPlay &&
               <Marquee
-                speed={150}
+                speed={200}
+                // loop="1"
               >
                 <p className="text-5xl text-white font-bold">{kokoronokoeText}</p>
               </Marquee>

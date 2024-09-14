@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@designbycode/tailwindcss-text-stroke": "^1.2.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@headlessui/react": "^2.0.4",
