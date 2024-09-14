@@ -54,16 +54,16 @@ export default function About({ version, handleModalClose }) {
               </g>
             </svg>
           </Icon>
-          <h3>Amazon IVS Web Broadcast Tool</h3>
+          <h3>Super support tool to be super honest presentation </h3>
         </div>
         <div className='flex text-center flex-col'>
-          <p className='text-sm mb-3 text-uiText/50'>
+          {/* <p className='text-sm mb-3 text-uiText/50'>
             SDK Version: {`${version.split('-')[0]}`}
-          </p>
+          </p> */}
           <span className='text-sm mb-3 text-uiText/50'>
             View source code on{' '}
             <a
-              href='https://github.com/aws-samples/amazon-ivs-broadcast-web-demo'
+              href='https://github.com/Cauchy27/2024-24aihack-teamdual'
               target='_blank'
               rel='noreferrer noopener'
               className='text-uiText/50 hover:text-uiText underline underline-offset-1'
@@ -74,12 +74,12 @@ export default function About({ version, handleModalClose }) {
           <p className='text-xs text-uiText/50'>
             For more demos, visit{' '}
             <a
-              href='https://ivs.rocks/examples/'
+              href='https://2024-24aihack-teamdual.vercel.app/'
               target='_blank'
               rel='noreferrer noopener'
               className='text-uiText/50 hover:text-uiText underline underline-offset-1'
             >
-              ivs.rocks/examples
+              demo
             </a>
           </p>
         </div>

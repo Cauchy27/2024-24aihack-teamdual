@@ -156,7 +156,7 @@ export default function BroadcastApp() {
     }
   }, [isSupported]);
 
-  const title = `超正直な発表メーカー - ${
+  const title = `超正直プレゼン - ${
     isLive ? 'LIVE' : 'Offline'
   }`;
 
