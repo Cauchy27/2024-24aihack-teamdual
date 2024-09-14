@@ -23,8 +23,8 @@ const testResJson = [`{"audioData": "2024-09-15_00-22-06.wav", "kokoronokoe": "�
 const testMode = true;
 
 const videoConstraints = {
-  width: 480,
-  height: 360,
+  width: 360,
+  height: 300,
   facingMode: "user",
 };
 
@@ -203,9 +203,8 @@ function playSample(ctx, audioBuffer) {
   sampleSource.onended = function () {
     console.log("再生終了！") ;
     setIsSoundPlay(false);
+    setKokoronokoeText("");
   };
-
-  console.log("go!!!");
 }
 
 const soundPlay = async(soundUrl) =>{
@@ -245,20 +244,20 @@ const getSoundTest =async() => {
           {/* <div>
             <button onClick={() => setCaptureEnable(false)}>終了</button>
           </div> */}
-          <div className="absolute z-50 bottom-0 left-0">
+          <div className="absolute z-0 bottom-0 left-0">
             {
               isSoundPlay &&
               <Marquee
-                speed={200}
+                speed={170}
                 // loop="1"
               >
-                <p className="text-5xl text-white font-bold">{kokoronokoeText}</p>
+                <p className="text-5xl text-white font-bold bg-slate-500 opacity-70">{kokoronokoeText}</p>
               </Marquee>
             }
             <Webcam
               audio={false}
-              width={480}
-              height={360}
+              width={360}
+              height={300}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}

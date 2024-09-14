@@ -161,11 +161,11 @@ export default function BroadcastApp() {
   }`;
 
   return (
-    <div className='z-10'>
+    <div>
       <Head>
         <title>{title}</title>
       </Head>
-      <div className='flex flex-col h-[100dvh] items-center bg-surface'>
+      <div className='flex flex-col h-[100dvh] items-center bg-surface z-10'>
         <ToasterBar />
         <StatusBar />
         <StreamPreview previewRef={previewRef} />
@@ -178,7 +178,7 @@ export default function BroadcastApp() {
           />
         )}
       </div>
-      <Modal show={modalActive} onClose={toggleModal} {...modalProps}>
+      <Modal show={modalActive} onClose={toggleModal} {...modalProps} className='z-10'>
         {modalContent}
       </Modal>
       {/* <AudioRecord/> */}
