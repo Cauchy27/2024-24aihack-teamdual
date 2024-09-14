@@ -264,77 +264,37 @@ const getSoundTest =async() => {
               videoConstraints={videoConstraints}
             />
           </div>
-          {/* <button onClick={()=>{
-            capture();
-            setTimeout(()=>{
-              submitImage();
-            },1000)
-          }}>キャプチャ</button> */}
         </>
       )}
-      {/* {url && (
-        <>
-          <div>
-            <button
-              onClick={() => {
-                setUrl(null);
-              }}
-            >
-              削除
-            </button>
-          </div>
-          <div>
-            <img src={url} alt="Screenshot" />
-          </div>
-          
-        </>
-      )} */}
-      {
-        !imageFlag &&
-        <IconButton 
-          size="larges" 
-          sx={{position:"absolute",mr:0}}
-          onClick={()=>{
-            setCaptureEnable(true);
-            setImageFlag(true);
-          }}
-        >
-          <RadioButtonCheckedIcon color="error"/>
-        </IconButton>
-        // <Button
-          // onClick={()=>{
-          //   setCaptureEnable(true);
-          //   setImageFlag(true);
-          // }}
-        // >
-        //   開始
-        // </Button>
-      }
-      {
-        imageFlag &&
-        <IconButton 
-          size="larges" 
-          sx={{position:"absolute",mr:0}}
-          onClick={()=>{
-                setImageFlag(false);
-                clearInterval(intervalId);
-                setIntervalId(0);
-                setCaptureEnable(false);
-          }}
-        >
-          <StopCircleIcon color=""/>
-        </IconButton>
-        // <Button
-        //   onClick={()=>{
-        //     setImageFlag(false);
-        //     clearInterval(intervalId);
-        //     setIntervalId(0);
-        //     setCaptureEnable(false);
-        //   }}
-        // >
-        //   停止
-        // </Button>
-      }
+      <div className="absolute z-50 bottom-20 right-5 bg-slate-50">
+        {
+          !imageFlag &&
+          <IconButton 
+            size="larges" 
+            onClick={()=>{
+              setCaptureEnable(true);
+              setImageFlag(true);
+            }}
+          >
+            <RadioButtonCheckedIcon color="error"/>
+          </IconButton>
+        }
+        {
+          imageFlag &&
+          <IconButton 
+            size="larges" 
+            onClick={()=>{
+                  setImageFlag(false);
+                  clearInterval(intervalId);
+                  setIntervalId(0);
+                  setCaptureEnable(false);
+            }}
+          >
+            <StopCircleIcon color=""/>
+          </IconButton>
+        }
+
+      </div>
       {/* <Button
           onClick={()=>{
             getSoundTest();
