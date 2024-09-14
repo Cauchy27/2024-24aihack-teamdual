@@ -20,8 +20,8 @@ const supabase = createClient(
 
 const testResJson = [`{"audioData": "/outAudio/2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`,`{"audioData": "/outAudio/2024-09-15_01-52-54.wav", "kokoronokoe": "この瞬間、僕の努力が報われている。皆の反応もいい感じだ。ここまで来たかいがあった。一体、どれだけの時間を費やしてきたんだろう。これが新しい始まりになるといいな。"}`];
 
-const testMode = true;
-// const testMode = false;
+// const testMode = true;
+const testMode = false;
 
 const videoConstraints = {
   width: 360,
