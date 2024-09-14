@@ -4,15 +4,23 @@ import Webcam from "react-webcam";
 import { createClient } from "@supabase/supabase-js";
 import { useEffect } from "react";
 
-import { Button } from "@mui/material";
+import {Button}  from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 
 const supabase = createClient(
   "https://hoymimtuzezshkuqcejv.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhveW1pbXR1emV6c2hrdXFjZWp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzMDgwMTksImV4cCI6MjA0MTg4NDAxOX0.yX8rrQx8QHA009vOy8JsIoFIj4eyoL2H7j5PVOxj8_Y"
 );
 
+const testResJson = `{"audioData": "2024-09-15_00-22-06.wav", "kokoronokoe": "こんなに頑張ったのに、誰も理解してくれないのか。協力した意味がない。もどかしい気持ちが募る。もうどうでもよくなる前に、決意を新たにしなきゃ。"}`;
+
+const testMode = true;
+
 const videoConstraints = {
-  width: 720,
+  width: 480,
   height: 360,
   facingMode: "user",
 };
@@ -24,6 +32,12 @@ export const ImageRecorder = () => {
   const [imageSrc, setImageSrc] = useState(null);
   const [intervalId, setIntervalId] = useState(0);
   const [imageFlag, setImageFlag] = useState(false);
+
+  const [isSoundPlay, setIsSoundPlay] = useState(false);
+
+  // 再生用ファイル
+  const [kokoronokoeText, setKokoronokoeText] = useState("");
+  const [kokoronokoeSound, setKokoronokoeSound] = useState(null);
 
   const capture = useCallback(() => {
     setImageSrc(webcamRef.current?.getScreenshot());
@@ -49,7 +63,9 @@ export const ImageRecorder = () => {
         buffer[i] = blob.charCodeAt(i);
     }
 
-    const { data, error } = await storage.upload(new Date().getTime() + ".jpg", new File([buffer.buffer], 'image.jpg', { type: 'image/jpg' }));
+    const imageName = new Date().getTime() + ".jpg"
+
+    const { data, error } = await storage.upload(imageName, new File([buffer.buffer], 'image.jpg', { type: 'image/jpg' }));
     
     if (error) {
       // TODO アップロードエラーの処理
@@ -58,7 +74,7 @@ export const ImageRecorder = () => {
     }
     else{
       console.log("OK!!")
-      return "ok";
+      return imageName;
     }
   }
 
@@ -71,7 +87,7 @@ export const ImageRecorder = () => {
       test = setInterval(() => {
         console.log("capture!!!")
         capture();
-      },15000);
+      },20000);
 
       setIntervalId(test)
     }
@@ -84,12 +100,118 @@ export const ImageRecorder = () => {
   useEffect(()=>{
     if(imageSrc){
       submitImage().then((res)=>{
-        if(res == "ok"){
+        if(res.match(/jpg/)){
           console.log("success_upload!!");
+
+          // ここでバックエンドを叩く
+          getKokoroNoKoe(res);
+
         }
       });
     }
   },[imageSrc]);
+
+  const getKokoroNoKoe = async(imageName) => {
+
+    const data = {
+      "image":"/images/"+imageName
+    }
+
+    console.log(JSON.stringify(data));
+
+    if(testMode){
+      const kokoronokoeData = JSON.parse(testResJson);
+      console.log(kokoronokoeData.audioData);
+      setKokoronokoeText(kokoronokoeData.kokoronokoe);
+
+      // 音声のurl取得・urlの形式を後でよう確認
+      const url = supabase.storage.from("media/outAudio").getPublicUrl(kokoronokoeData.audioData);
+
+      // console.log(url.data.publicUrl);
+      soundPlay(url.data.publicUrl);
+
+      return ;
+
+    }
+    else{
+      // 仕方がないので、IPベタ書き
+      const url = 'http://192.168.100.158:5555'
+      await fetch(url,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then((res_data)=>{
+        console.log(res_data)
+        return res_data;
+      });
+    }
+    console.log("get_end");
+  }
+
+  // 音声の再生
+  // window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  let ctx = new AudioContext();
+  let sampleSource
+
+   // 音源を取得しAudioBuffer形式に変換して返す関数
+ async function setupSample1(soundUrl) {
+  console.log(soundUrl);
+  const response = await fetch(soundUrl);
+
+  console.log(response);
+
+  ctx = new AudioContext();
+
+  const arrayBuffer = await response.arrayBuffer();
+  // Web Audio APIで使える形式に変換
+  const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+  return audioBuffer;
+}
+
+// AudioBufferをctxに接続し再生する関数
+function playSample(ctx, audioBuffer) {
+  sampleSource = ctx.createBufferSource();
+  // 変換されたバッファーを音源として設定
+  sampleSource.buffer = audioBuffer;
+  // 出力につなげる
+  sampleSource.connect(ctx.destination);
+  sampleSource.start();
+
+  sampleSource.onended = function () {
+    console.log("再生終了！") ;
+    setIsSoundPlay(false);
+  };
+
+  console.log("go!!!");
+}
+
+const soundPlay = async(soundUrl) =>{
+
+  console.log(isSoundPlay,soundUrl);
+
+  if (isSoundPlay) return;
+
+  setIsSoundPlay(true);
+  const sample = await setupSample1(soundUrl);
+  playSample(ctx, sample);
+}
+
+const getSoundTest =async() => {
+  const testUrl = "https://hoymimtuzezshkuqcejv.supabase.co/storage/v1/object/public/media/outAudio/2024-09-15_00-22-06.wav";
+
+  const response = await fetch(testUrl);
+
+  console.log(response);
+
+  soundPlay(testUrl);
+
+  return "test";
+
+}
 
   return (
     <>
@@ -114,12 +236,12 @@ export const ImageRecorder = () => {
               videoConstraints={videoConstraints}
             />
           </div>
-          <button onClick={()=>{
+          {/* <button onClick={()=>{
             capture();
             setTimeout(()=>{
               submitImage();
             },1000)
-          }}>キャプチャ</button>
+          }}>キャプチャ</button> */}
         </>
       )}
       {/* {url && (
@@ -141,34 +263,57 @@ export const ImageRecorder = () => {
       )} */}
       {
         !imageFlag &&
-        <Button
+        <IconButton 
+          size="larges" 
+          sx={{position:"absolute",mr:0}}
           onClick={()=>{
             setCaptureEnable(true);
             setImageFlag(true);
           }}
         >
-          開始
-        </Button>
+          <RadioButtonCheckedIcon color="error"/>
+        </IconButton>
+        // <Button
+          // onClick={()=>{
+          //   setCaptureEnable(true);
+          //   setImageFlag(true);
+          // }}
+        // >
+        //   開始
+        // </Button>
       }
       {
         imageFlag &&
-        <Button
+        <IconButton 
+          size="larges" 
+          sx={{position:"absolute",mr:0}}
           onClick={()=>{
-            setImageFlag(false);
-            clearInterval(intervalId);
-            setIntervalId(0);
+                setImageFlag(false);
+                clearInterval(intervalId);
+                setIntervalId(0);
+                setCaptureEnable(false);
           }}
         >
-          停止
-        </Button>
+          <StopCircleIcon color=""/>
+        </IconButton>
+        // <Button
+        //   onClick={()=>{
+        //     setImageFlag(false);
+        //     clearInterval(intervalId);
+        //     setIntervalId(0);
+        //     setCaptureEnable(false);
+        //   }}
+        // >
+        //   停止
+        // </Button>
       }
-      <Button
+      {/* <Button
           onClick={()=>{
-            console.log(imageSrc);
+            getSoundTest();
           }}
-        >
-          テストログ
-        </Button>
+      >
+        テスト
+      </Button> */}
     </>
   );
 };
