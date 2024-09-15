@@ -178,7 +178,7 @@ export const ImageRecorder = () => {
     }
     else{
       // 仕方がないので、IPベタ書き
-      try{
+      // try{
         const url = 'http://192.168.100.141:5555'
         await fetch(url,{
           method: 'POST',
@@ -191,7 +191,7 @@ export const ImageRecorder = () => {
         .then((res_data)=>{
   
           let kokoronokoeData;
-          kokoronokoeData = JSON.parse(res_data);
+          kokoronokoeData = res_data;
   
           console.log(kokoronokoeData.audioData);
           setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3 > 270 ? kokoronokoeData.kokoronokoe.length * 3.3 : 270);
@@ -206,41 +206,41 @@ export const ImageRecorder = () => {
           console.log(res_data)
           return res_data;
         });
-      }
-      catch(error){
-        let kokoronokoeData
-        const testNum = Math.random();
-        if(testNum <0.2){
-          kokoronokoeData = JSON.parse(testResJson[0]);
-        }
-        else if(testNum <0.4 ){
-          kokoronokoeData = JSON.parse(testResJson[1]);
-        }
-        else if(testNum <0.6 ){
-          kokoronokoeData = JSON.parse(testResJson[2]);
-        }
-        else if(testNum <0.8 ){
-          kokoronokoeData = JSON.parse(testResJson[3]);
-        }
-        else{
-          kokoronokoeData = JSON.parse(testResJson[4]);
-        }
+      // }
+      // catch(error){
+      //   let kokoronokoeData
+      //   const testNum = Math.random();
+      //   if(testNum <0.2){
+      //     kokoronokoeData = JSON.parse(testResJson[0]);
+      //   }
+      //   else if(testNum <0.4 ){
+      //     kokoronokoeData = JSON.parse(testResJson[1]);
+      //   }
+      //   else if(testNum <0.6 ){
+      //     kokoronokoeData = JSON.parse(testResJson[2]);
+      //   }
+      //   else if(testNum <0.8 ){
+      //     kokoronokoeData = JSON.parse(testResJson[3]);
+      //   }
+      //   else{
+      //     kokoronokoeData = JSON.parse(testResJson[4]);
+      //   }
 
-        setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3 > 270 ? kokoronokoeData.kokoronokoe.length * 3.3 : 270);
+      //   setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3 > 270 ? kokoronokoeData.kokoronokoe.length * 3.3 : 270);
         
-        console.log(kokoronokoeData.audioData);
-        setKokoronokoeText(kokoronokoeData.kokoronokoe);
+      //   console.log(kokoronokoeData.audioData);
+      //   setKokoronokoeText(kokoronokoeData.kokoronokoe);
 
-        // 音声のurl取得・urlの形式を後で確認
-        const url = supabase.storage.from("media/outAudio").getPublicUrl(kokoronokoeData.audioData.replace("/outAudio/",""));
+      //   // 音声のurl取得・urlの形式を後で確認
+      //   const url = supabase.storage.from("media/outAudio").getPublicUrl(kokoronokoeData.audioData.replace("/outAudio/",""));
 
-        // console.log(url.data.publicUrl);
-        soundPlay(url.data.publicUrl);
+      //   // console.log(url.data.publicUrl);
+      //   soundPlay(url.data.publicUrl);
 
-        console.log(error);
+      //   console.log(error);
 
-        return "error";
-      }
+      //   return "error";
+      // }
     }
     console.log("get_end");
   }
