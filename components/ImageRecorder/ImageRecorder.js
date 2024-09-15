@@ -162,7 +162,7 @@ export const ImageRecorder = () => {
         kokoronokoeData = JSON.parse(testResJson[4]);
       }
 
-      setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3);
+      setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3 > 270 ? kokoronokoeData.kokoronokoe.length * 3.3 : 270);
       
       console.log(kokoronokoeData.audioData);
       setKokoronokoeText(kokoronokoeData.kokoronokoe);
@@ -189,12 +189,11 @@ export const ImageRecorder = () => {
       .then(res => res.json())
       .then((res_data)=>{
 
-        // ここは後で
         let kokoronokoeData;
         kokoronokoeData = JSON.parse(res_data);
 
         console.log(kokoronokoeData.audioData);
-        setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3);
+        setTextSpeed(kokoronokoeData.kokoronokoe.length * 3.3 > 270 ? kokoronokoeData.kokoronokoe.length * 3.3 : 270);
         setKokoronokoeText(kokoronokoeData.kokoronokoe);
 
         // 音声のurl取得・urlの形式を後で確認
@@ -281,9 +280,9 @@ export const ImageRecorder = () => {
     playProfessional(ctxp, professional);
 
     const sample = await setupSample1(soundUrl);
-    playSample(ctx, sample);
-    // setTimeout(()=>{
-    // },1000)
+    setTimeout(()=>{
+      playSample(ctx, sample);
+    },500)
   }
 
   const getSoundTest =async() => {
