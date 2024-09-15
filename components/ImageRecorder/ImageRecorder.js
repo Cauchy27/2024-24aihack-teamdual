@@ -29,12 +29,12 @@ const testResJson = [
   `{"audioData": "/outAudio/2024-09-15_09-23-31.wav", "kokoronokoe": "緊張する必要はない、全力で伝えるだけだ。皆が高い知識を持っているなら、何も心配はいらない。楽しんでもらえるように、リラックスして進もう。"}`
 ];
 
-// const testMode = true;
-const testMode = false;
+const testMode = true;
+// const testMode = false;
 
 const videoConstraints = {
   width: 440,
-  height: 360,
+  height: 320,
   facingMode: "user",
 };
 
@@ -361,7 +361,7 @@ export const ImageRecorder = () => {
             <Webcam
               audio={false}
               width={440}
-              height={360}
+              height={320}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}

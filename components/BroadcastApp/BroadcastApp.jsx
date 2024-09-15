@@ -156,7 +156,7 @@ export default function BroadcastApp() {
     }
   }, [isSupported]);
 
-  const title = `超正直プレゼン - ${
+  const title = `超正直プレゼン - kokoronokoe ${
     isLive ? 'LIVE' : 'Offline'
   }`;
 
