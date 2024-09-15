@@ -29,8 +29,8 @@ const testResJson = [
   `{"audioData": "/outAudio/2024-09-15_09-23-31.wav", "kokoronokoe": "緊張する必要はない、全力で伝えるだけだ。皆が高い知識を持っているなら、何も心配はいらない。楽しんでもらえるように、リラックスして進もう。"}`
 ];
 
-const testMode = true;
-// const testMode = false;
+// const testMode = true;
+const testMode = false;
 
 const videoConstraints = {
   width: 360,
@@ -178,7 +178,7 @@ export const ImageRecorder = () => {
     }
     else{
       // 仕方がないので、IPベタ書き
-      const url = 'http://192.168.100.158:5555'
+      const url = 'http://192.168.100.141:5555'
       await fetch(url,{
         method: 'POST',
         headers: {
