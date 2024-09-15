@@ -33,7 +33,7 @@ const testResJson = [
 const testMode = false;
 
 const videoConstraints = {
-  width: 420,
+  width: 400,
   height: 360,
   facingMode: "user",
 };
@@ -360,7 +360,7 @@ export const ImageRecorder = () => {
             }
             <Webcam
               audio={false}
-              width={420}
+              width={400}
               height={360}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
